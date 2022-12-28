@@ -331,6 +331,7 @@ DEPENDENCIES
   capybara (>= 2.15)
   dotenv-rails
   dry-rails!
+  dry-validation
   jbuilder (~> 2.7)
   listen (~> 3.2)
   mimemagic!
