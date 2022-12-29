@@ -1,6 +1,7 @@
 module Projects
   class ProjectsController < ApplicationController
     include Dry::Monads[:result]
+    include Ticketee::Deps[repo: :project_repo]
 
     def index
       @projects = repo.all
@@ -34,10 +35,6 @@ module Projects
 
     def project_params
       params.require(:project).permit(:name).to_h.symbolize_keys
-    end
-
-    def repo
-      ProjectRepository.new(rom)
     end
   end
 end

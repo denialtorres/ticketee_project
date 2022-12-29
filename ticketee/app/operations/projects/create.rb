@@ -2,6 +2,7 @@ module Projects
   class Create
     include Dry::Monads[:result]
     include Dry::Monads::Do.for(:call)
+    include Ticketee::Deps[:project_repo]
 
     def call(input)
       params = yield validate(input)
@@ -16,12 +17,6 @@ module Projects
       project = project_repo.create(input)
 
       Success(project)
-    end
-
-    private
-
-    def project_repo
-      ProjectRepository.new(ROM.env)
     end
   end
 end
