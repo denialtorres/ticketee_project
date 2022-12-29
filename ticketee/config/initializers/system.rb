@@ -3,4 +3,5 @@ Dry::Rails.container do
   auto_register!('lib')
 
   register(:project_repo, -> { ProjectRepository.new(ROM.env) })
+  register(:create_project, -> { Projects::Create.new })
 end
