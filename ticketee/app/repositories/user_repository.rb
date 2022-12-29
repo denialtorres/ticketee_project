@@ -12,4 +12,8 @@ class UserRepository < ROM::Repository::Root
   def all
     root.to_a
   end
+
+  def contributors_for_project(project_id)
+    users.contributors_for_project(project_id).to_a
+  end
 end
