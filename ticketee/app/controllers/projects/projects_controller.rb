@@ -1,5 +1,7 @@
 module Projects
   class ProjectsController < ApplicationController
+    include Dry::Monads[:result]
+
     def index
       @projects = repo.all
     end
@@ -9,16 +11,17 @@ module Projects
     end
 
     def create
-      validation = ProjectContract.new.call(project_params)
-      if validation.success?
-        repo.create(project_params)
-        flash[:notice] = "Project has been created."
-        redirect_to action: :index
-      else
-        @project = Projects::Project.new(project_params)
-        @errors = validation.errors
-        flash.now[:alert] = "Project could not be created."
-        render :new
+      create_project = Projects::Create.new
+      case create_project.call(project_params)
+        in Success(project)
+          flash[:notice] = "Project has been created."
+          redirect_to project
+
+        in Failure(result)
+          @project = Projects::Project.new(project_params)
+          @errors = result.errors
+          flash[:alert] = "Project could not be created."
+          render :new
       end
     end
 
