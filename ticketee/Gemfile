@@ -51,6 +51,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'rom-rails'
 gem 'dry-rails', github: "dry-rb/dry-rails"
 gem 'dry-validation'
+gem 'dry-monads'
 
 gem 'rom-sql', '3.2.0'
 
