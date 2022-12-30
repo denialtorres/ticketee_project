@@ -1,8 +1,13 @@
 module Projects
   class ProjectsController < ApplicationController
     include Dry::Monads[:result]
-    include Ticketee::Deps[repo: :project_repo]
-    include Ticketee::Deps[:create_project]
+    # include Ticketee::Deps[repo: :project_repo]
+    # include Ticketee::Deps[:create_project]
+    include Ticketee::Deps[
+      :user_repo,
+      :create_project,
+      repo: :project_repo,
+    ]
 
     def index
       @projects = repo.all
@@ -29,6 +34,8 @@ module Projects
     def show
       # the by_id method works identically to the find method
       @project = repo.by_id(params[:id])
+      @contributor_count = user_repo.contributors_for_project_count(params[:id])
+      @top_contributors = user_repo.top_contributors_for_project(params[:id])
     end
 
     private
